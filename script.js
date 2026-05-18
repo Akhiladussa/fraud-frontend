@@ -1,4 +1,4 @@
-const API = "http://127.0.0.1:5000";
+const API = "https://fraud-backend-api.onrender.com";
 
 // ── Build V1–V28 input fields dynamically ──────────────────────────
 window.addEventListener("DOMContentLoaded", () => {
