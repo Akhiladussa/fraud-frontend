@@ -1,0 +1,206 @@
+/* ─── Reset & Variables ─── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #0b0f1a;
+  --surface:   #131929;
+  --card:      #1a2236;
+  --border:    #243050;
+  --accent:    #3b82f6;
+  --accent2:   #6366f1;
+  --green:     #22c55e;
+  --red:       #ef4444;
+  --text:      #e2e8f0;
+  --muted:     #64748b;
+  --radius:    12px;
+  --font:      'Segoe UI', system-ui, sans-serif;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font);
+  min-height: 100vh;
+  padding: 2rem 1rem 4rem;
+}
+
+/* ─── Header ─── */
+header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.logo {
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
+}
+.tagline {
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-top: 4px;
+}
+
+/* ─── Main container ─── */
+main {
+  max-width: 900px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* ─── Status bar ─── */
+.status-bar {
+  padding: 0.6rem 1rem;
+  border-radius: var(--radius);
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+}
+.status-bar.checking  { background: #1e293b; color: var(--muted); }
+.status-bar.connected { background: #14532d; color: #86efac; }
+.status-bar.error     { background: #450a0a; color: #fca5a5; }
+
+/* ─── Button row ─── */
+.btn-row {
+  display: flex;
+  gap: 0.75rem;
+}
+.btn-row button {
+  flex: 1;
+  padding: 0.65rem 1rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: var(--card);
+  color: var(--text);
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background 0.2s, border-color 0.2s;
+}
+.btn-row button:hover { background: var(--border); }
+
+/* ─── Form card ─── */
+#transaction-form {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.section-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 0.4rem;
+}
+
+/* ─── Grids ─── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.6rem; }
+
+@media (max-width: 640px) {
+  .grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .grid-2 { grid-template-columns: 1fr; }
+}
+
+/* ─── Fields ─── */
+.field { display: flex; flex-direction: column; gap: 0.3rem; }
+.field label {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+.field input, .auto-field input {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.7rem;
+  color: var(--text);
+  font-size: 0.88rem;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+.field input:focus, .auto-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+}
+
+.auto-field { display: flex; flex-direction: column; gap: 0.3rem; }
+.auto-field label { font-size: 0.75rem; color: var(--muted); }
+
+/* ─── Analyze button ─── */
+.analyze-btn {
+  margin-top: 0.5rem;
+  padding: 0.85rem;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: opacity 0.2s, transform 0.1s;
+}
+.analyze-btn:hover   { opacity: 0.9; }
+.analyze-btn:active  { transform: scale(0.98); }
+.analyze-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ─── Result panel ─── */
+.result-panel {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  transition: all 0.3s ease;
+}
+.result-panel.hidden { display: none; }
+
+.result-icon  { font-size: 3.5rem; }
+.result-label {
+  font-size: 1.4rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+.result-panel.fraud  { border-color: var(--red);   background: #1c0a0a; }
+.result-panel.legit  { border-color: var(--green);  background: #071a0e; }
+
+/* ─── Probability bars ─── */
+.probability-bars { width: 100%; display: flex; flex-direction: column; gap: 0.6rem; }
+.prob-row {
+  display: grid;
+  grid-template-columns: 120px 1fr 55px;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+}
+.bar-track {
+  background: var(--surface);
+  border-radius: 99px;
+  height: 10px;
+  overflow: hidden;
+}
+.bar {
+  height: 100%;
+  border-radius: 99px;
+  transition: width 0.6s ease;
+  width: 0%;
+}
+.bar-legit { background: var(--green); }
+.bar-fraud { background: var(--red); }
+
+/* ─── Footer ─── */
+footer {
+  text-align: center;
+  margin-top: 3rem;
+  color: var(--muted);
+  font-size: 0.8rem;
+}

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FraudGuard — Real-Time Detection</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <header>
+    <div class="logo">🛡️ FraudGuard</div>
+    <p class="tagline">Real-Time Credit Card Fraud Detection</p>
+  </header>
+
+  <main>
+
+    <!-- Status bar -->
+    <div id="api-status" class="status-bar checking">
+      ⏳ Connecting to detection engine...
+    </div>
+
+    <!-- Action buttons -->
+    <div class="btn-row">
+      <button id="load-sample-btn" onclick="loadSample()">
+        📥 Load Sample Transaction
+      </button>
+      <button id="clear-btn" onclick="clearForm()">
+        🗑️ Clear
+      </button>
+    </div>
+
+    <!-- Form -->
+    <form id="transaction-form" onsubmit="analyzeTransaction(event)">
+
+      <div class="section-title">🕐 Basic Info</div>
+      <div class="grid-2">
+        <div class="field">
+          <label>Time (seconds from first transaction)</label>
+          <input type="number" id="Time" name="Time" placeholder="e.g. 56271" required />
+        </div>
+        <div class="field">
+          <label>Amount (₹ / $)</label>
+          <input type="number" step="0.01" id="Amount" name="Amount" placeholder="e.g. 149.62" required />
+        </div>
+      </div>
+
+      <div class="section-title">🔢 PCA Features (V1 – V14)</div>
+      <div class="grid-4" id="v1-v14"></div>
+
+      <div class="section-title">🔢 PCA Features (V15 – V28)</div>
+      <div class="grid-4" id="v15-v28"></div>
+
+      <button type="submit" class="analyze-btn" id="analyze-btn">
+        🔍 Analyze Transaction
+      </button>
+    </form>
+
+    <!-- Result panel -->
+    <div id="result-panel" class="result-panel hidden">
+      <div id="result-icon" class="result-icon"></div>
+      <div id="result-label" class="result-label"></div>
+      <div class="probability-bars">
+        <div class="prob-row">
+          <span>✅ Legitimate</span>
+          <div class="bar-track">
+            <div id="bar-legit" class="bar bar-legit"></div>
+          </div>
+          <span id="pct-legit"></span>
+        </div>
+        <div class="prob-row">
+          <span>🚨 Fraudulent</span>
+          <div class="bar-track">
+            <div id="bar-fraud" class="bar bar-fraud"></div>
+          </div>
+          <span id="pct-fraud"></span>
+        </div>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    Built with Logistic Regression · scikit-learn · Flask · Vanilla JS
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
