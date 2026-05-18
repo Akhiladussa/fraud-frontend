@@ -1,4 +1,4 @@
-const API = "https://fraud-backend-api.onrender.com";
+const API = "https://fraud-backend-app.onrender.com";
 
 // ── Build V1–V28 input fields dynamically ──────────────────────────
 window.addEventListener("DOMContentLoaded", () => {
