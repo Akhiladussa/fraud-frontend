@@ -2,88 +2,184 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FraudGuard — Real-Time Detection</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0b1020" />
+  <title>FraudGuard | Transaction Intelligence</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#overview" aria-label="FraudGuard home">
+        <span class="brand-mark">F</span>
+        <span><strong>FraudGuard</strong><small>TRANSACTION INTELLIGENCE</small></span>
+      </a>
 
-  <header>
-    <div class="logo">🛡️ FraudGuard</div>
-    <p class="tagline">Real-Time Credit Card Fraud Detection</p>
-  </header>
+      <div class="nav-caption">WORKSPACE</div>
+      <nav class="nav-list" aria-label="Main navigation">
+        <a class="nav-link active" href="#overview"><span>◫</span> Overview</a>
+        <a class="nav-link" href="#analyze"><span>⌕</span> Analyze transaction</a>
+        <a class="nav-link" href="#batch"><span>▤</span> Batch analysis</a>
+        <a class="nav-link" href="#history"><span>◷</span> Analysis history</a>
+      </nav>
 
-  <main>
-
-    <!-- Status bar -->
-    <div id="api-status" class="status-bar checking">
-      ⏳ Connecting to detection engine...
-    </div>
-
-    <!-- Action buttons -->
-    <div class="btn-row">
-      <button id="load-sample-btn" onclick="loadSample()">
-        📥 Load Sample Transaction
-      </button>
-      <button id="clear-btn" onclick="clearForm()">
-        🗑️ Clear
-      </button>
-    </div>
-
-    <!-- Form -->
-    <form id="transaction-form" onsubmit="analyzeTransaction(event)">
-
-      <div class="section-title">🕐 Basic Info</div>
-      <div class="grid-2">
-        <div class="field">
-          <label>Time (seconds from first transaction)</label>
-          <input type="number" id="Time" name="Time" placeholder="e.g. 56271" required />
+      <div class="sidebar-bottom">
+        <div class="sidebar-status">
+          <span class="status-dot" id="sidebar-status-dot"></span>
+          <div><strong id="sidebar-status-text">Connecting…</strong><small>Detection engine</small></div>
         </div>
-        <div class="field">
-          <label>Amount (₹ / $)</label>
-          <input type="number" step="0.01" id="Amount" name="Amount" placeholder="e.g. 149.62" required />
+        <div class="sidebar-note">
+          <span class="note-icon">i</span>
+          <p>Research prototype. Review flagged transactions using your organization's approved process.</p>
+        </div>
+        <div class="profile">
+          <div class="avatar">FG</div>
+          <div><strong>Fraud analyst</strong><small>Workspace</small></div>
+          <span class="profile-menu">•••</span>
         </div>
       </div>
+    </aside>
 
-      <div class="section-title">🔢 PCA Features (V1 – V14)</div>
-      <div class="grid-4" id="v1-v14"></div>
-
-      <div class="section-title">🔢 PCA Features (V15 – V28)</div>
-      <div class="grid-4" id="v15-v28"></div>
-
-      <button type="submit" class="analyze-btn" id="analyze-btn">
-        🔍 Analyze Transaction
-      </button>
-    </form>
-
-    <!-- Result panel -->
-    <div id="result-panel" class="result-panel hidden">
-      <div id="result-icon" class="result-icon"></div>
-      <div id="result-label" class="result-label"></div>
-      <div class="probability-bars">
-        <div class="prob-row">
-          <span>✅ Legitimate</span>
-          <div class="bar-track">
-            <div id="bar-legit" class="bar bar-legit"></div>
-          </div>
-          <span id="pct-legit"></span>
+    <main class="main-content">
+      <header class="topbar">
+        <button class="mobile-menu" id="mobile-menu" type="button" aria-label="Toggle navigation">☰</button>
+        <div class="breadcrumb">Workspace <span>/</span> <strong>Overview</strong></div>
+        <div class="topbar-right">
+          <span class="environment-pill"><i></i> MODEL ENVIRONMENT</span>
+          <span class="api-pill"><span class="status-dot" id="api-status-dot"></span><span id="api-status-text">Checking API</span></span>
         </div>
-        <div class="prob-row">
-          <span>🚨 Fraudulent</span>
-          <div class="bar-track">
-            <div id="bar-fraud" class="bar bar-fraud"></div>
+      </header>
+
+      <section class="page-section" id="overview">
+        <div class="welcome-row">
+          <div>
+            <p class="eyebrow">FRAUD RISK WORKSPACE</p>
+            <h1>Transaction overview</h1>
+            <p class="page-description">Monitor model decisions, investigate suspicious transactions, and review model explanations.</p>
           </div>
-          <span id="pct-fraud"></span>
+          <a class="button button-primary" href="#analyze">＋ Analyze a transaction</a>
         </div>
-      </div>
-    </div>
 
-  </main>
+        <div class="notice-banner">
+          <span class="notice-symbol">◆</span>
+          <div><strong>Prototype environment</strong><p>This application demonstrates machine-learning based transaction screening. It is not connected to a live bank or payment network and does not block transactions.</p></div>
+        </div>
 
-  <footer>
-    Built with Logistic Regression · scikit-learn · Flask · Vanilla JS
-  </footer>
+        <div class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-top"><span>Transactions reviewed</span><span class="stat-icon blue">▤</span></div>
+            <div class="stat-value" id="stat-total">0</div>
+            <div class="stat-foot">This browser session</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Flagged as potential fraud</span><span class="stat-icon red">!</span></div>
+            <div class="stat-value" id="stat-fraud">0</div>
+            <div class="stat-foot">Model predictions</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Classified legitimate</span><span class="stat-icon green">✓</span></div>
+            <div class="stat-value" id="stat-legit">0</div>
+            <div class="stat-foot">Model predictions</div>
+          </article>
+          <article class="stat-card">
+            <div class="stat-top"><span>Flag rate</span><span class="stat-icon violet">％</span></div>
+            <div class="stat-value" id="stat-rate">0.0%</div>
+            <div class="stat-foot">Of analyzed transactions</div>
+          </article>
+        </div>
+      </section>
 
+      <section class="page-section" id="analyze">
+        <div class="section-heading">
+          <div><p class="eyebrow">SINGLE TRANSACTION</p><h2>Analyze transaction</h2><p class="page-description">Enter the 30 model features or load a sample transaction to test the detection engine.</p></div>
+          <span class="section-tag">MODEL INPUT · 30 FEATURES</span>
+        </div>
+
+        <div class="panel">
+          <div class="panel-heading">
+            <div><h3>Transaction details</h3><p class="muted-small">All fields are required by the trained model.</p></div>
+            <button class="button button-secondary" id="load-sample-btn" type="button">↧ Load sample features</button>
+          </div>
+          <p class="sample-guidance">For a quick manual explanation demo, load the synthetic values into all 30 fields, then select <strong>Analyze transaction</strong>. The SHAP panel will show the five strongest model contributions. These generated values are for UI testing, not verified real-world transactions.</p>
+          <form id="transaction-form">
+            <div class="manual-grid">
+              <label class="input-field"><span>Time</span><input type="number" step="any" id="Time" name="Time" placeholder="e.g. 406" required></label>
+              <label class="input-field"><span>Amount</span><input type="number" step="any" id="Amount" name="Amount" min="0" placeholder="e.g. 149.99" required></label>
+            </div>
+            <details class="feature-details" open>
+              <summary>Model components <span>V1–V28</span></summary>
+              <p class="feature-help">These are anonymized PCA-transformed dataset features. Their original real-world meanings are not available.</p>
+              <div class="manual-feature-grid" id="feature-fields"></div>
+            </details>
+            <div class="form-actions">
+              <p class="privacy-note">Do not enter real card numbers, CVVs, PINs, or other sensitive payment credentials.</p>
+              <div class="action-group">
+                <button class="button button-secondary" id="clear-form-btn" type="button">Clear form</button>
+                <button class="button button-primary" id="analyze-btn" type="submit">⌕ Analyze transaction</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <section class="panel results-panel hidden" id="single-result" aria-live="polite">
+          <div class="result-heading"><div><p class="eyebrow">MODEL OUTPUT</p><h2>Transaction analysis</h2></div><span class="result-time" id="result-time"></span></div>
+          <div class="result-main" id="result-main">
+            <div class="result-status-icon" id="single-result-icon">✓</div>
+            <div class="result-copy"><span class="result-kicker">PREDICTION</span><h3 id="single-result-label">Legitimate</h3><p id="single-result-description"></p></div>
+            <div class="score-block"><strong id="single-fraud-score">0.00%</strong><span>Fraud probability</span></div>
+          </div>
+          <div class="probability-section">
+            <div class="probability-label"><span>Legitimate probability</span><strong id="single-legit-pct">0%</strong></div>
+            <div class="probability-track"><div class="probability-fill legitimate-fill" id="single-legit-bar"></div></div>
+            <div class="probability-label"><span>Fraud probability</span><strong id="single-fraud-pct">0%</strong></div>
+            <div class="probability-track"><div class="probability-fill fraud-fill" id="single-fraud-bar"></div></div>
+          </div>
+
+          <div class="shap-section" id="shap-section">
+            <div class="shap-heading"><div><p class="eyebrow">MODEL EXPLAINABILITY</p><h3>Why did the model make this prediction?</h3></div><span class="shap-badge">SHAP</span></div>
+            <p class="shap-description">The features below had the strongest influence on this transaction's model score.</p>
+            <div class="shap-features" id="shap-features"></div>
+            <div class="shap-legend"><span><i class="shap-dot positive"></i> Increases fraud score</span><span><i class="shap-dot negative"></i> Decreases fraud score</span></div>
+            <p class="shap-note">V1–V28 are anonymized PCA components. SHAP contributions explain model behavior; they do not establish the real-world cause of a transaction.</p>
+          </div>
+          <p class="result-disclaimer">This is a machine-learning prediction, not a definitive determination. Review flagged transactions using your organization's approved process.</p>
+        </section>
+      </section>
+
+      <section class="page-section" id="batch">
+        <div class="section-heading">
+          <div><p class="eyebrow">BATCH SCREENING</p><h2>Analyze a CSV file</h2><p class="page-description">Upload a CSV containing the same 30 feature columns used during model training.</p></div>
+          <span class="section-tag">CSV · BATCH</span>
+        </div>
+        <div class="panel upload-panel">
+          <div class="upload-intro"><div class="upload-icon">⇧</div><div><h3>Upload transaction dataset</h3><p>Required headers: Time, Amount, V1, V2, …, V28. A Class column is not required.</p></div></div>
+          <label class="drop-zone" for="csv-file">
+            <input type="file" id="csv-file" accept=".csv,text/csv">
+            <span class="file-icon">▤</span><strong id="file-name">Choose a CSV file or drop it here</strong><span class="drop-hint">CSV only · Use anonymized/sample data</span>
+            <span class="button button-secondary">Browse files</span>
+          </label>
+          <div class="batch-actions"><p class="privacy-note">Rows are sent individually to the configured prediction API. Avoid uploading personal or confidential cardholder data.</p><button class="button button-primary" id="run-batch-btn" type="button" disabled>Run batch analysis</button></div>
+          <div class="progress-wrap hidden" id="batch-progress-wrap"><div class="progress-label"><span id="batch-progress-text">Analyzing…</span><strong id="batch-progress-count">0 / 0</strong></div><div class="progress-track"><div class="progress-fill" id="batch-progress-bar"></div></div></div>
+          <div class="inline-message hidden" id="batch-message" role="status"></div>
+        </div>
+        <section class="panel batch-results hidden" id="batch-results">
+          <div class="panel-heading"><div><p class="eyebrow">CSV ANALYSIS</p><h3>Transaction results</h3><p class="page-description" id="batch-summary">Analysis complete.</p></div><button class="button button-secondary" id="download-results" type="button">↓ Export results</button></div>
+          <div class="table-wrap"><table><thead><tr><th>Row</th><th>Amount</th><th>Prediction</th><th>Fraud probability</th></tr></thead><tbody id="batch-table-body"></tbody></table></div>
+        </section>
+      </section>
+
+      <section class="page-section" id="history">
+        <div class="section-heading"><div><p class="eyebrow">RECENT ACTIVITY</p><h2>Analysis history</h2><p class="page-description">Transactions analyzed during this browser session.</p></div><button class="button button-secondary" id="clear-history-btn" type="button">Clear history</button></div>
+        <div class="panel history-panel"><div class="table-wrap"><table><thead><tr><th>Time</th><th>Source</th><th>Amount</th><th>Prediction</th><th>Fraud probability</th></tr></thead><tbody id="history-table-body"><tr><td colspan="5" class="empty-state">No transactions analyzed yet.</td></tr></tbody></table></div></div>
+      </section>
+
+      <footer class="footer"><span>FraudGuard · Credit Card Fraud Detection</span><span>Research prototype · Flask & scikit-learn</span></footer>
+    </main>
+  </div>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="script.js"></script>
 </body>
 </html>

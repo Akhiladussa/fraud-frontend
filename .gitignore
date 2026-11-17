@@ -1,0 +1,7 @@
+# Backup files
+*.backup.*
+*.bak
+
+# Generated archives and test outputs
+*.zip
+shap_api_test_result.json
